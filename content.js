@@ -1,11 +1,22 @@
-const feedSelectors = [
+const selectorPatterns = [
+  // feed, timeline, home
   '[aria-label="Timeline: Your Home Timeline"]',
   '[data-testid="primaryColumn"] div[aria-label="Timeline"]',
   '[role="region"][aria-label*="Timeline"]',
+
+  // new posts
+  '[aria-label="New posts are available. Push the period key to go to the them."]',
+
+  // explore
+  '[aria-label="Timeline: Explore"]',
+
+  // trending, sidebar
+  '[aria-label="Trending"]',
+  '[data-testid="sideColumn"] div[aria-label="Timeline"]',
 ];
 
 // Combine selectors for efficient querying
-const combinedSelector = feedSelectors.join(",");
+const selectors = selectorPatterns.join(",");
 
 // Flag to prevent multiple executions
 let isHiding = false;
@@ -17,7 +28,7 @@ function hideTwitterFeed() {
   // Disconnect observer to prevent recursive triggers
   observer.disconnect();
 
-  const feeds = document.querySelectorAll(combinedSelector);
+  const feeds = document.querySelectorAll(selectors);
   feeds.forEach((feed) => {
     if (feed.style.display !== "none") {
       feed.style.display = "none";
@@ -41,8 +52,8 @@ const observer = new MutationObserver((mutations) => {
         if (node.nodeType === 1) {
           // ELEMENT_NODE
           if (
-            node.matches(combinedSelector) ||
-            node.querySelector(combinedSelector)
+            node.matches(selectors) ||
+            node.querySelector(selectors)
           ) {
             hideTwitterFeed();
             return; // Exit early
