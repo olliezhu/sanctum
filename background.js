@@ -1,1 +1,1 @@
-console.log("Twitter Feed Blocker extension loaded.");
+console.log("Twitter Quiet extension loaded.");
