@@ -7,6 +7,9 @@ const selectorPatterns = [
   '[aria-label="Verified Orgs"]',
   '[aria-label="Community Notes"]',
 
+  // feed list
+  '[data-testid="ScrollSnap-SwipeableList"]',
+
   // feed, timeline, home
   '[aria-label="Timeline: Your Home Timeline"]',
   '[data-testid="primaryColumn"] div[aria-label="Timeline"]',
