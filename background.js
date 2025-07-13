@@ -1,1 +1,1 @@
-console.log("Twitter Quiet extension loaded.");
+console.log("Sanctum extension loaded.");
