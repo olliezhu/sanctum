@@ -8,7 +8,8 @@ const selectorPatterns = [
   '[aria-label="Community Notes"]',
 
   // feed list
-  '[data-testid="ScrollSnap-SwipeableList"]',
+  // TODO: this is used everywhere so don't filter yet
+  // '[data-testid="ScrollSnap-SwipeableList"]',
 
   // feed, timeline, home
   '[aria-label="Timeline: Your Home Timeline"]',
@@ -25,6 +26,12 @@ const selectorPatterns = [
   '[aria-label="Trending"]',
   '[data-testid="sideColumn"] div[aria-label="Timeline"]',
 ];
-const style = document.createElement('style');
-style.textContent = `${selectorPatterns.join(',')} { display:none !important; }`;
-document.head.appendChild(style);
+
+const STYLE_ID = 'sanctum-feed-blocker-style';
+let style = document.getElementById(STYLE_ID)
+if (!style) {
+  style = document.createElement('style');
+  style.id = STYLE_ID;
+  style.textContent = `${selectorPatterns.join(',')} { display:none !important; }`;
+  document.head.appendChild(style);
+}
