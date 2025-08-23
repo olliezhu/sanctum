@@ -1,37 +1,63 @@
-const selectorPatterns = [
-  // navigation
-  '[aria-label="Grok"]',
-  '[aria-label="Jobs"]',
-  '[aria-label="Communities"]',
-  '[aria-label="Premium"]',
-  '[aria-label="Verified Orgs"]',
-  '[aria-label="Community Notes"]',
+const hostname = window.location.hostname;
+const service = getService(hostname);
+if (!service) {
+  throw new Error('Unhandled hostname ${hostname}')
+}
 
-  // feed list
-  // TODO: this is used everywhere so don't filter yet
-  // '[data-testid="ScrollSnap-SwipeableList"]',
+const selectorPatternsByService = {
+  'reddit': [
+    // home feed
+    'shreddit-feed[reload-url*="home-feed"]',
 
-  // feed, timeline, home
-  '[aria-label="Timeline: Your Home Timeline"]',
-  '[data-testid="primaryColumn"] div[aria-label="Timeline"]',
-  '[role="region"][aria-label*="Timeline"]',
+    // recent posts
+    'recent-posts',
+  ],
+  'twitter': [
+    // navigation
+    '[aria-label="Grok"]',
+    '[aria-label="Jobs"]',
+    '[aria-label="Communities"]',
+    '[aria-label="Premium"]',
+    '[aria-label="Verified Orgs"]',
+    '[aria-label="Community Notes"]',
 
-  // new posts
-  '[aria-label="New posts are available. Push the period key to go to the them."]',
+    // feed, timeline, home
+    '[aria-label="Timeline: Your Home Timeline"]',
+    '[data-testid="primaryColumn"] div[aria-label="Timeline"]',
+    '[role="region"][aria-label*="Timeline"]',
 
-  // explore
-  '[aria-label="Timeline: Explore"]',
+    // new posts
+    '[aria-label="New posts are available. Push the period key to go to the them."]',
 
-  // trending, sidebar
-  '[aria-label="Trending"]',
-  '[data-testid="sideColumn"] div[aria-label="Timeline"]',
-];
+    // explore
+    '[aria-label="Timeline: Explore"]',
+
+    // trending, sidebar
+    '[aria-label="Trending"]',
+    '[data-testid="sideColumn"] div[aria-label="Timeline"]',
+  ],
+};
+const selectorPatterns = selectorPatternsByService[service];
 
 const STYLE_ID = 'sanctum-feed-blocker-style';
-let style = document.getElementById(STYLE_ID)
+let style = document.getElementById(STYLE_ID);
 if (!style) {
   style = document.createElement('style');
   style.id = STYLE_ID;
   style.textContent = `${selectorPatterns.join(',')} { display:none !important; }`;
+
   document.head.appendChild(style);
+}
+
+function getService(hostname) {
+  const baseDomain = hostname.split('.').slice(-2).join('.');
+  switch (baseDomain) {
+    case 'reddit.com':
+      return 'reddit';
+    case 'twitter.com':
+    case 'x.com':
+      return 'twitter';
+    default:
+      return null;
+  }
 }
