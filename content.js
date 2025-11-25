@@ -40,14 +40,13 @@ const selectorPatternsByService = {
 const selectorPatterns = selectorPatternsByService[service];
 
 const STYLE_ID = 'sanctum-feed-blocker-style';
-let style = document.getElementById(STYLE_ID);
-if (!style) {
-  style = document.createElement('style');
-  style.id = STYLE_ID;
-  style.textContent = `${selectorPatterns.join(',')} { display:none !important; }`;
+if (document.getElementById(STYLE_ID)) return;
 
-  document.head.appendChild(style);
-}
+const style = document.createElement('style');
+style.id = STYLE_ID;
+style.textContent = `${selectorPatterns.join(',')} { display:none !important; }`;
+
+document.head.appendChild(style);
 
 function getService(hostname) {
   const baseDomain = hostname.split('.').slice(-2).join('.');
