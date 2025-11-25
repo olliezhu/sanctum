@@ -5,9 +5,6 @@
   "description": "Blocks the feed and some noisy elements on a few social media websites.",
   "permissions": [],
   "host_permissions": ["https://*.reddit.com/*", "https://*.twitter.com/*", "https://*.x.com/*"],
-  "background": {
-    "service_worker": "background.js"
-  },
   "content_scripts": [
     {
       "matches": ["https://*.reddit.com/*", "https://*.twitter.com/*", "https://*.x.com/*"],
