@@ -37,6 +37,7 @@
     ],
   };
   const selectorPatterns = selectorPatternsByService[service];
+  if (!selectorPatterns || selectorPatterns.length === 0) return;
 
   const STYLE_ID = 'sanctum-feed-blocker-style';
   if (document.getElementById(STYLE_ID)) return;
@@ -45,7 +46,7 @@
   style.id = STYLE_ID;
   style.textContent = `${selectorPatterns.join(',')} { display:none !important; }`;
 
-  document.head.appendChild(style);
+  (document.head || document.documentElement).appendChild(style);
 
   function getService(hostname) {
     const baseDomain = hostname.split('.').slice(-2).join('.');
