@@ -1,8 +1,6 @@
 const hostname = window.location.hostname;
 const service = getService(hostname);
-if (!service) {
-  throw new Error('Unhandled hostname ${hostname}')
-}
+if (!service) return;
 
 const selectorPatternsByService = {
   'reddit': [
